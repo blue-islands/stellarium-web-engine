@@ -112,12 +112,11 @@ env.Append(CCFLAGS='-DNO_LIBCURL')
 
 # All the emscripten runtime functions we use.
 # Needed since emscripten 1.37.
-extra_exported = [
+exported_functions = ['_malloc', '_free']
+exported_runtime_methods = [
     'ALLOC_NORMAL',
     'GL',
     'UTF8ToString',
-    '_free',
-    '_malloc',
     'addFunction',
     'allocate',
     'ccall',
@@ -131,7 +130,6 @@ extra_exported = [
     'writeAsciiToMemory',
     'writeArrayToMemory',
 ]
-exported_methods_json = json.dumps(extra_exported)
 
 flags = [
     '-s', 'MODULARIZE=1',
@@ -146,8 +144,8 @@ flags = [
     '-O3',
     '-s', 'USE_WEBGL2=1',
     '-s', 'NO_EXIT_RUNTIME=1',
-    '-s', 'EXPORTED_FUNCTIONS=[]',
-    f'-s', f'EXPORTED_RUNTIME_METHODS={exported_methods_json}',
+    f'-s', f'EXPORTED_FUNCTIONS={json.dumps(exported_functions)}',
+    f'-s', f'EXPORTED_RUNTIME_METHODS={json.dumps(exported_runtime_methods)}',
     '-s', 'FILESYSTEM=0'
 ]
 
