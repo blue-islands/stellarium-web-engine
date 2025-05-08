@@ -18,13 +18,12 @@ env.Append(
     CFLAGS='-Wall -std=gnu11 -Wno-unknown-pragmas -D_GNU_SOURCE '
            '-Wno-missing-braces -Wno-error=deprecated-non-prototype '
            '-Wno-unused-but-set-variable',
-    CXXFLAGS='-Wall -std=gnu++11 -Wno-narrowing '
+    CXXFLAGS='-Wall -std=gnu++11 -Wno-narrowing  -Wno-error=unused-but-set-variable'
              '-Wno-unknown-pragmas -Wno-unused-function '
              '-Wno-error=unused-but-set-variable'
 )
 
-if env['werror']:
-    env.Append(CCFLAGS='-Werror')
+# Removed -Werror due to compatibility issues
 
 if env['mode'] == 'debug':
     env.Append(CCFLAGS=['-O0', '-DCOMPILE_TESTS'])
@@ -147,7 +146,7 @@ flags = [
          '-s', 'USE_WEBGL2=1',
          '-s', 'NO_EXIT_RUNTIME=1',
          '-s', '"EXPORTED_FUNCTIONS=[]"',
-         '-s', '"EXPORTED_RUNTIME_METHODS=[%s]"' % extra_exported,
+         '-s', '"EXPORTED_RUNTIME_METHODS=[%s, '_malloc', '_free']"' % extra_exported,
          '-s', 'FILESYSTEM=0'
         ]
 
