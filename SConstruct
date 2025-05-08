@@ -1,6 +1,7 @@
 import glob
 import os
 import sys
+import json
 
 vars = Variables()
 vars.AddVariables(
@@ -130,25 +131,25 @@ extra_exported = [
     'writeAsciiToMemory',
     'writeArrayToMemory',
 ]
-extra_exported = ','.join("'%s'" % x for x in extra_exported)
+exported_methods_json = json.dumps(extra_exported)
 
 flags = [
-         '-s', 'MODULARIZE=1', '-s', 'EXPORT_NAME=StelWebEngine',
-         '-s', 'ALLOW_MEMORY_GROWTH=1',
-         '-s', 'ALLOW_TABLE_GROWTH=1',
-         '--pre-js', 'src/js/pre.js',
-         '--pre-js', 'src/js/obj.js',
-         '--pre-js', 'src/js/geojson.js',
-         '--pre-js', 'src/js/canvas.js',
-         # '-s', 'STRICT=1', # Note: to put back once we switch to emsdk 2
-         '-s', 'RESERVED_FUNCTION_POINTERS=10',
-         '-O3',
-         '-s', 'USE_WEBGL2=1',
-         '-s', 'NO_EXIT_RUNTIME=1',
-         '-s', '"EXPORTED_FUNCTIONS=[]"',
-         '-s', '"EXPORTED_RUNTIME_METHODS=[%s, '_malloc', '_free']"' % extra_exported,
-         '-s', 'FILESYSTEM=0'
-        ]
+    '-s', 'MODULARIZE=1',
+    '-s', 'EXPORT_NAME=StelWebEngine',
+    '-s', 'ALLOW_MEMORY_GROWTH=1',
+    '-s', 'ALLOW_TABLE_GROWTH=1',
+    '--pre-js', 'src/js/pre.js',
+    '--pre-js', 'src/js/obj.js',
+    '--pre-js', 'src/js/geojson.js',
+    '--pre-js', 'src/js/canvas.js',
+    '-s', 'RESERVED_FUNCTION_POINTERS=10',
+    '-O3',
+    '-s', 'USE_WEBGL2=1',
+    '-s', 'NO_EXIT_RUNTIME=1',
+    '-s', 'EXPORTED_FUNCTIONS=[]',
+    f'-s', f'EXPORTED_RUNTIME_METHODS={exported_methods_json}',
+    '-s', 'FILESYSTEM=0'
+]
 
 #if env['mode'] not in ['profile', 'debug']:
 #    flags += ['--closure', '1']
