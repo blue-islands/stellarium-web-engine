@@ -143,7 +143,7 @@ flags = [
          '-s', 'USE_WEBGL2=1',
          '-s', 'NO_EXIT_RUNTIME=1',
          '-s', '"EXPORTED_FUNCTIONS=[]"',
-         '-s', '"EXTRA_EXPORTED_RUNTIME_METHODS=[%s]"' % extra_exported,
+         '-s', '"EXPORTED_RUNTIME_METHODS=[%s]"' % extra_exported,
          '-s', 'FILESYSTEM=0'
         ]
 
