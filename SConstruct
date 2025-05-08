@@ -16,7 +16,7 @@ env = Environment(variables=vars)
 
 env.Append(CFLAGS='-Wall -std=gnu11 -Wno-unknown-pragmas -D_GNU_SOURCE '
                   '-Wno-missing-braces -Wno-error=deprecated-non-prototype '
-                  '-Wno-error=unused-but-set-variable',
+                  '-Wno-unused-but-set-variable',
            CXXFLAGS='-Wall -std=gnu++11 -Wno-narrowing '
                     '-Wno-unknown-pragmas -Wno-unused-function')
 
